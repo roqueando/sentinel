@@ -1,4 +1,4 @@
-# Changelog for `senttinel`
+# Changelog for `simple`
 
 All notable changes to this project will be documented in this file.
 

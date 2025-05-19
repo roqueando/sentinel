@@ -1,0 +1,24 @@
+#+TITLE: Development Diary
+#+AUTHOR: Ayaworan
+
+* Development Diary of Sentinel
+** May 15 of 2025
+   There is some definitions of what will be sentinel.
+   * Is a terminal tool for testing APIs (for now) against common and others security issues
+   * Will be used with the `sentinel` command and will be written in Haskell
+   Some another questions:
+   * Sentinel when run the command what will going to happen?
+     - first sentinel needs to build up and run the target api. (as docker or as box, (I like boxes))
+     - then it will fire a bunch of security tests (like OWASP TOP 10, IDORs and others)
+   * It will be a config file?
+     - Yes, it will be a described file with steps, what tests you want to run (builtin and customs)
+     - That file can be pointed to proof tests files that will be `snt` files
+     - Sentinel will have the correct files
+
+
+** May 19 of 2025
+   Okay, some things that I've gathering around the internet to understand.
+   * Sentinel will talk with Docker API (through HTTP REST) to:
+     - build the context by Dockerfile
+     - start/stop containers based on the created image
+     - get container logs 
