@@ -22,3 +22,10 @@
      - build the context by Dockerfile
      - start/stop containers based on the created image
      - get container logs 
+*** TODO Create a process that will build the Dockerfile and create an Image [1/3] [33%]
+    * [X] Get the entire project folder and create a tar file
+    * [ ] Send this to a docker build
+    * [ ] Show the stream to user
+
+*** TODO Create a terminal interface to all this
+    * [ ] Implement a base terminal interface using Brick (for Haskell)

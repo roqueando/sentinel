@@ -1,4 +1,4 @@
-# Changelog for `simple`
+# Changelog for `sentinel`
 
 All notable changes to this project will be documented in this file.
 

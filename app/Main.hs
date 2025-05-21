@@ -1,6 +1,6 @@
 module Main (main) where
 
-import Lib
+import Docker.Compact (createTarball)
 
 main :: IO ()
-main = someFunc
+main = createTarball
