@@ -28,3 +28,4 @@ test-cache/
 *~r
 context.tar
 build/
+dist-newstyle
