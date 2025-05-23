@@ -1,24 +1,31 @@
-dist
-dist-*
-cabal-dev
+# Binaries
+*.exe
 *.o
-*.hi
-*.hie
-*.chi
-*.chs.h
-*.dyn_o
-*.dyn_hi
-.hpc
-.hsenv
-.cabal-sandbox/
-cabal.sandbox.config
-*.prof
-*.aux
-*.hp
-*.eventlog
-.stack-work/
-cabal.project.local
-cabal.project.local~
-.HTF/
-.ghc.environment.*
+
+# Build artifacts
+bin/
+pkg/
+
+# Dependencies (Go modules)
+vendor/
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS-specific files
+.DS_Store
+
+# Test cache
+test-cache/
+
+# Coverage files
+*.out
+
+# Temporary files
+*~r
 context.tar
+build/
+dist-newstyle
