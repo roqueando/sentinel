@@ -2,10 +2,11 @@ package docker
 
 import (
 	"context"
-	"bufio"
+	//"bufio"
+	//tea "github.com/charmbracelet/bubbletea"
 	"strings"
 	"fmt"
-	"io"
+	//"io"
 	"net"
 	"net/http"
 	"encoding/json"
@@ -71,6 +72,7 @@ func BuildImageFromTar(imageName, tag string) error {
 
 	defer resp.Body.Close()
 
+	/*
 	reader := bufio.NewReader(resp.Body)
 
 	// FIXME: that will be a function to implement
@@ -93,5 +95,6 @@ func BuildImageFromTar(imageName, tag string) error {
 	if err != nil {
 		return fmt.Errorf("error on streaming response: %w", err)
 	}
+	*/
 	return nil
 }
