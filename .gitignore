@@ -28,4 +28,5 @@ test-cache/
 *~r
 context.tar
 build/
-dist-newstyle
+dist-newstyle# Added by goreleaser init:
+dist/
