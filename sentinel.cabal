@@ -41,7 +41,9 @@ library
     , conduit
     , directory
     , filepath
+    , http-client
     , http-conduit
+    , http-types
     , process
     , tar
     , unix
@@ -62,7 +64,9 @@ executable sentinel
     , conduit
     , directory
     , filepath
+    , http-client
     , http-conduit
+    , http-types
     , process
     , sentinel
     , tar
@@ -85,7 +89,9 @@ test-suite sentinel-test
     , conduit
     , directory
     , filepath
+    , http-client
     , http-conduit
+    , http-types
     , process
     , sentinel
     , tar

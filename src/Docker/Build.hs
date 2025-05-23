@@ -1,7 +1,6 @@
 module Docker.Build () where
 
 import Network.HTTP.Client
-import Network.HTTP.Client.Unix
 import Network.HTTP.Types.Header (hContentType)
 import qualified Data.ByteString.Lazy.Char8 as LBS
 import System.IO (stdout)
@@ -17,4 +16,14 @@ imageName :: String
 imageName = "sentinel_image:latest"
 
 buildImage :: IO ()
-buildImage = undefined
+buildImage = do
+  manager <- newManager defaultManagerSettings
+  req0 <- parseRequest ("http://localhost/build?t=" ++ imageName)
+  body <- LBS.readFile tarPath
+
+  let req = req0
+        { method = "POST"
+        , requestBody = RequestBodyLBS body
+        , requestHeaders = [(hContentType, "application/x-tar")]
+        , responseTimeout = responseTimeoutNone
+        }

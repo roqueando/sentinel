@@ -28,6 +28,8 @@ dependencies:
 - process
 - conduit
 - http-conduit
+- http-client
+- http-types
 - unix
 
 default-extensions:
