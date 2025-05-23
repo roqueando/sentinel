@@ -7,10 +7,77 @@ import (
 	"io"
 	"log"
 	"os"
+	"os/exec"
 	"path/filepath"
+	"strings"
 )
 
-func build_file_info_header(tarWriter *tar.Writer, filename string, fileInfo os.FileInfo, err error) error {
+func diff(a, b []string) []string {
+	bSet := make(map[string]bool)
+	for _, item := range b {
+		bSet[item] = true
+	}
+	var diff []string
+
+	for _, item := range a {
+		if !bSet[item] {
+			diff = append(diff, item)
+		}
+	}
+
+	return diff
+}
+
+func listAllFiles(srcDir string) ([]string, error) {
+	listAllFilesCmd := exec.Command("find", ".", "-type", "f")
+	listAllFilesCmd.Dir = srcDir
+	output, err := listAllFilesCmd.Output()
+	if err != nil {
+		return nil, err
+	}
+
+	lines := strings.Split(string(output), "\n")
+	return lines, nil
+}
+
+func getGitIgnoredFiles(files []string) ([]string, error) {
+	gitCmd := exec.Command("git", "check-ignore", "--stdin")
+
+	var stdin bytes.Buffer
+	stdin.WriteString(strings.Join(files, "\n"))
+	gitCmd.Stdin = &stdin
+
+	output, err := gitCmd.Output()
+	if err != nil {
+		return nil, err
+	}
+
+	lines := strings.Split(strings.TrimSpace(string(output)), "\n")
+	return lines, nil
+}
+
+func listGitIgnoredFiles() ([]string, error) {
+	currentDir, err := os.Getwd()
+	if err != nil {
+		return nil, err
+	}
+	// list all files
+	allFiles, err := listAllFiles(currentDir)
+	if err != nil {
+		return nil, err
+	}
+
+	gitIgnoredFiles, err := getGitIgnoredFiles(allFiles)
+	if err != nil {
+		return nil, err
+	}
+
+	files := diff(allFiles, gitIgnoredFiles)
+
+	return files, nil
+}
+
+func buildFileInfoAndHeader(tarWriter *tar.Writer, filename string, fileInfo os.FileInfo) error {
 	currentDir, err := os.Getwd()
 	if err != nil {
 		return err
@@ -51,25 +118,26 @@ func build_file_info_header(tarWriter *tar.Writer, filename string, fileInfo os.
 }
 
 func compact_dir() ([]byte, error) {
-	currentDir, err := os.Getwd()
-	if err != nil {
-		return nil, err
-	}
-
 	var buffer bytes.Buffer
 	tarWriter := tar.NewWriter(&buffer)
 
-	err = filepath.Walk(currentDir, func(filename string, fileInfo os.FileInfo, err error) error {
-		err = build_file_info_header(tarWriter, filename, fileInfo, err)
-		if err != nil {
-			return err
-		}
-		return nil
-	})
-
+	ignoredFiles, err := listGitIgnoredFiles()
 	if err != nil {
 		return nil, err
 	}
+
+	for _, item := range ignoredFiles {
+		fileInfo, err := os.Stat(item)
+		if item == "" {
+			continue
+		}
+
+		if err != nil {
+			return nil, err
+		}
+		buildFileInfoAndHeader(tarWriter, item, fileInfo)
+	}
+
 	if err := tarWriter.Close(); err != nil {
 		return nil, err
 	}
