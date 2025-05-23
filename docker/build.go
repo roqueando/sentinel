@@ -16,6 +16,21 @@ type DockerStreamLine struct {
 	Stream string `json:"stream"`
 }
 
+
+func formatDockerBuildLine(line string) string {
+	var streamLine DockerStreamLine
+
+	line = strings.TrimSpace(line)
+
+	err := json.Unmarshal([]byte(line), &streamLine)
+	if err != nil {
+		return ""
+	}
+
+	return streamLine.Stream
+}
+
+// FIXME: enable a option to see stream if is verbose
 func BuildImageFromTar(imageName, tag string) error {
 	socketPath := "/var/run/docker.sock"
 	currentDir, err := os.Getwd()
@@ -31,6 +46,7 @@ func BuildImageFromTar(imageName, tag string) error {
 	}
 	defer tarFile.Close()
 
+	// FIXME: pass all transport creation to a builder function
 	transport := &http.Transport{
 		// TODO: create a private function for this
 		DialContext: func(_ context.Context, _, _ string) (net.Conn, error) {
@@ -57,6 +73,7 @@ func BuildImageFromTar(imageName, tag string) error {
 
 	reader := bufio.NewReader(resp.Body)
 
+	// FIXME: that will be a function to implement
 	for {
 		line, err := reader.ReadBytes('\n')
 
@@ -77,17 +94,4 @@ func BuildImageFromTar(imageName, tag string) error {
 		return fmt.Errorf("error on streaming response: %w", err)
 	}
 	return nil
-}
-
-func formatDockerBuildLine(line string) string {
-	var streamLine DockerStreamLine
-
-	line = strings.TrimSpace(line)
-
-	err := json.Unmarshal([]byte(line), &streamLine)
-	if err != nil {
-		return ""
-	}
-
-	return streamLine.Stream
 }

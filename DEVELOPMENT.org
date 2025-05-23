@@ -22,10 +22,18 @@
      - build the context by Dockerfile
      - start/stop containers based on the created image
      - get container logs 
-*** TODO Create a process that will build the Dockerfile and create an Image [1/3] [33%]
+*** DONE Create a process that will build the Dockerfile and create an Image [1/3] [33%]
     * [X] Get the entire project folder and create a tar file
-    * [ ] Send this to a docker build
-    * [ ] Show the stream to user
+    * [X] Send this to a docker build
+    * [X] Show the stream to user
 
 *** TODO Create a terminal interface to all this
-    * [ ] Implement a base terminal interface using Brick (for Haskell)
+    * [ ] Implement a base terminal interface using Bubble Tea
+
+** May 23 of 2025
+  Now I need to create a way to run the tests
+  Even this, we will need some way to start the pentests on APIs
+  The first of all will run the OWASP TOP 10 tests
+*** TODO Create unit tests
+    * [X] Create tests for the functions that will be used to run the tests
+

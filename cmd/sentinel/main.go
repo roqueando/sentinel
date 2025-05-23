@@ -2,6 +2,7 @@ package main
 
 import (
 	"log"
+	"os"
 	"sentinel/docker"
 )
 
@@ -17,4 +18,5 @@ func main() {
 	}
 
 	// TODO: remove context.tar from current directory
+	os.Remove("context.tar")
 }
